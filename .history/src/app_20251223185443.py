@@ -84,17 +84,18 @@ st.subheader('Data Pelanggan:')
 st.dataframe(input_df)
 
 if st.button('🚀 Prediksi Churn'):
-    if model is not None:
+    if model:
+        # prediksi probabilitas
         prediction_proba = model.predict_proba(input_df)[0][1]
-
+        
+        # Threshod untuk klasifikasi
         THRESHOLD = 0.5
         
         st.subheader('Hasil Analisis:')
-
-        if prediction_proba >= THRESHOLD:
-            st.error("⚠️ HATI-HATI! Pelanggan berpotensi CHURN.")
-            st.write(f"Probabilitas Churn: **{prediction_proba:.2%}**")
+        if prediction_proba > THRESHOLD:
+            st.error(f"⚠️ HATI-HATI! Pelanggan berpotensi CHURN.")
+            st.write(f"Probabilitas: {prediction_proba:.2%}")
             st.write("**Saran:** Tawarkan diskon atau layanan prioritas segera.")
         else:
-            st.success("✅ AMAN. Pelanggan diprediksi SETIA.")
-            st.write(f"Probabilitas Churn: **{prediction_proba:.2%}**")
+            st.success(f"✅ AMAN. Pelanggan diprediksi SETIA.")
+            st.write(f"Probabilitas Churn: {prediction_proba:.2%}")
